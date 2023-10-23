@@ -11,9 +11,13 @@ const TextSettings = ({
     setIsItalic,
     fontSize,
     setFontSize,
+    boxSize,
+    setBoxSize,
+    setHorizontalPosition,
+    setVerticalPosition,
 }) => {
     return (
-        <div className='bg-light d-flex justify-content-center align-items-center flex-column p-3'>
+        <div className='bg-light d-flex justify-content-center align-items-center flex-column rounded p-3'>
             <div className='checkboxes d-inline-flex mb-2'>
                 <div className="form-check">
                     <input
@@ -30,7 +34,8 @@ const TextSettings = ({
                 </div>
 
                 <div className="form-check">
-                    <input className="form-check-input mx-1"
+                    <input 
+                        className="form-check-input mx-1"
                         type="checkbox"
                         value={isBold}
                         id="flexCheckBold"
@@ -41,7 +46,8 @@ const TextSettings = ({
                 </div>
 
                 <div className="form-check">
-                    <input className="form-check-input mx-1"
+                    <input 
+                        className="form-check-input mx-1"
                         type="checkbox"
                         value={isTextShadow}
                         id="flexCheckTextShadow"
@@ -53,7 +59,8 @@ const TextSettings = ({
                 </div>
 
                 <div className="form-check">
-                    <input className="form-check-input mx-1"
+                    <input 
+                        className="form-check-input mx-1"
                         type="checkbox"
                         value={isItalic}
                         id="flexCheckItalics"
@@ -65,15 +72,47 @@ const TextSettings = ({
             </div>
 
             <div className="row g-3 align-items-center">
-                <div className="col-auto">
-                    <label htmlFor="inputFontSize" className="col-form-label">Tamaño de letra</label>
-                </div>
-                <div className="col-auto">
-                    <input type="number"
+                <div className="col-auto align-items-center">
+                    <label htmlFor="inputFontSize" className="col-form-label d-inline-flex">Tamaño de letra</label>
+                    <input 
+                        type="number"
                         id="inputFontSize"
-                        className="form-control text-end"
+                        className="form-control text-end d-inline-flex ms-1 p-1"
                         value={fontSize}
                         onChange={(e) => setFontSize(parseFloat(e.target.value))}
+                    />
+                </div>
+                <div className="col-auto align-items-center">
+                    <label htmlFor="inputBoxSize" className="col-form-label d-inline-flex">Ancho de caja</label>
+                    <input 
+                        type="number"
+                        id="inputBoxSize"
+                        className="form-control text-end d-inline-flex ms-1 p-1"
+                        value={boxSize}
+                        onChange={(e) => setBoxSize(parseFloat(e.target.value))}
+                    />
+                </div>
+            </div>
+
+            <div className="row g-3 align-items-center my-2">
+                <div className="col-auto d-inline-flex align-items-center">
+                    <label htmlFor="horizontalRange" className="form-label m-0">Horizontal</label>
+                    <input 
+                        type="range" 
+                        className="form-range rounded ms-1" 
+                        id="horizontalRange" 
+                        defaultValue={0} 
+                        onChange={(e) => setHorizontalPosition(parseFloat(e.target.value))} 
+                    />
+                </div>
+                <div className="col-auto d-inline-flex align-items-center">
+                    <label htmlFor="verticalRange" className="form-label m-0">Vertical</label>
+                    <input 
+                        type="range" 
+                        className="form-range rounded ms-1" 
+                        id="verticalRange" 
+                        defaultValue={0} 
+                        onChange={(e) => setVerticalPosition(parseFloat(e.target.value))} 
                     />
                 </div>
             </div>

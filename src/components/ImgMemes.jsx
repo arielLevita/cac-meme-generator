@@ -14,6 +14,9 @@ const ImgMemes = () => {
             isItalic: false,
             textColor: '#ffa500',
             fontSize: 40,
+            boxSize: 300,
+            horizontalPosition: 0,
+            verticalPosition: 0,
         },
     ]);
     const [showSettings, setShowSettings] = useState(Array(textSettings.length).fill(false));
@@ -29,7 +32,6 @@ const ImgMemes = () => {
             return updatedShowSettings;
         });
     };
-
 
     useEffect(() => {
         fetch('https://api.imgflip.com/get_memes')
@@ -49,9 +51,33 @@ const ImgMemes = () => {
             isItalic: false,
             textColor: '#ffa500',
             fontSize: 40,
+            boxSize: 300,
+            horizontalPosition: 0,
+            verticalPosition: 0,
         }));
         setTextSettings(newSettings);
     };
+
+    useEffect(() => {
+        const horizontalScrollDiv = document.getElementById('imgBox');
+
+        const handleHorizontalScroll = (e) => {
+            if (e.deltaY !== 0) {
+                e.preventDefault();
+                horizontalScrollDiv.scrollLeft += e.deltaY;
+            }
+        };
+
+        if (horizontalScrollDiv) {
+            horizontalScrollDiv.addEventListener('wheel', handleHorizontalScroll);
+        }
+
+        return () => {
+            if (horizontalScrollDiv) {
+                horizontalScrollDiv.removeEventListener('wheel', handleHorizontalScroll);
+            }
+        };
+    }, []);
 
     const downloadMeme = () => {
         const downloadFigure = document.getElementById('export');
@@ -69,8 +95,8 @@ const ImgMemes = () => {
     };
 
     return (
-        <div className=''>
-            <h1 className='my-3 text-center'>Editor de memes</h1>
+        <div className='bg-primary bg-gradient min-vh-100'>
+            <h1 className='mb-3 py-2 text-light text-center text-shadow text-uppercase'>Editor de memes</h1>
 
             <div className='row m-0'>
                 <div className='col col-md-6 d-flex justify-content-center p-3'>
@@ -78,12 +104,18 @@ const ImgMemes = () => {
                         {textSettings.map((settings, index) => (
                             <span
                                 key={index}
-                                className={`position-absolute text-break
+                                className={`position-absolute text-center text-break lh-1
                                 ${settings.isUppercase ? 'text-uppercase' : ''}
                                 ${settings.isBold ? 'fw-bold' : ''}
                                 ${settings.isTextShadow ? 'text-shadow' : ''}
                                 ${settings.isItalic ? 'fst-italic' : ''}`}
-                                style={{ color: settings.textColor, fontSize: settings.fontSize }}
+                                style={{ 
+                                    color: settings.textColor, 
+                                    fontSize: settings.fontSize, 
+                                    width: settings.boxSize,
+                                    left: `${settings.horizontalPosition}%`, 
+                                    top: `${settings.verticalPosition}%`, 
+                                }}
                             >
                                 {settings.textMeme}
                             </span>
@@ -95,27 +127,27 @@ const ImgMemes = () => {
                 </div>
 
                 <div className='col col-md-6'>
-                    <h4>Elegí tu imagen favorita</h4>
-                    <div className='imgbox d-flex overflow-x-scroll p-1 border border-secondary rounded mb-1'>
+                    <h4 className='text-light text-shadow'>Elegí tu imagen favorita</h4>
+                    <div className='imgbox d-flex overflow-x-scroll p-1 bg-light rounded mb-3' id='imgBox'>
                         {memesArray?.map((meme) => (
                             <img
                                 key={meme.id}
                                 src={meme.url}
                                 name={meme.name}
                                 alt={meme.name}
-                                style={{ height: 100, marginRight: 5 }}
+                                style={{ height: 100, marginRight: 10, border: '1px solid gray' }}
                                 onClick={() => handleSelect(meme)}
                             />
                         ))}
                     </div>
 
-                    <h4>Ingrese el texto del meme</h4>
+                    <h4 className='text-light text-shadow'>Ingrese el texto del meme</h4>
                     {textSettings.map((settings, index) => (
-                        <div key={index} className='input-group text-input border border-secondary rounded mb-1'>
+                        <div key={index} className='input-group text-input rounded-start mb-1'>
                             <input
                                 className='form-control w-50 d-block'
                                 type='text'
-                                placeholder='poné tu frase'
+                                placeholder='Ingresar texto'
                                 name='meme'
                                 aria-label=''
                                 value={settings.textMeme || ''}
@@ -145,7 +177,7 @@ const ImgMemes = () => {
                                     }}
                                 />
                             </span>
-                            <span className='input-group-text'>
+                            <span className='input-group-text rounded-end'>
                                 <button className='btn bg-light' onClick={() => handleShowSettings(index)}>
                                     <i className="bi bi-gear-fill"></i>
                                 </button>
@@ -160,8 +192,8 @@ const ImgMemes = () => {
                                             isTextShadow={settings.isTextShadow}
                                             isItalic={settings.isItalic}
                                             fontSize={settings.fontSize}
+                                            boxSize={settings.boxSize}
                                             setIsUppercase={(value) => {
-                                                // Update the value in textSettings
                                                 setTextSettings((prevSettings) => {
                                                     const updatedSettings = [...prevSettings];
                                                     updatedSettings[index].isUppercase = value;
@@ -169,7 +201,6 @@ const ImgMemes = () => {
                                                 });
                                             }}
                                             setIsBold={(value) => {
-                                                // Update the value in textSettings
                                                 setTextSettings((prevSettings) => {
                                                     const updatedSettings = [...prevSettings];
                                                     updatedSettings[index].isBold = value;
@@ -177,7 +208,6 @@ const ImgMemes = () => {
                                                 });
                                             }}
                                             setIsTextShadow={(value) => {
-                                                // Update the value in textSettings
                                                 setTextSettings((prevSettings) => {
                                                     const updatedSettings = [...prevSettings];
                                                     updatedSettings[index].isTextShadow = value;
@@ -185,7 +215,6 @@ const ImgMemes = () => {
                                                 });
                                             }}
                                             setIsItalic={(value) => {
-                                                // Update the value in textSettings
                                                 setTextSettings((prevSettings) => {
                                                     const updatedSettings = [...prevSettings];
                                                     updatedSettings[index].isItalic = value;
@@ -193,10 +222,30 @@ const ImgMemes = () => {
                                                 });
                                             }}
                                             setFontSize={(value) => {
-                                                // Update the fontSize in textSettings
                                                 setTextSettings((prevSettings) => {
                                                     const updatedSettings = [...prevSettings];
                                                     updatedSettings[index].fontSize = value;
+                                                    return updatedSettings;
+                                                });
+                                            }}
+                                            setBoxSize={(value) => {
+                                                setTextSettings((prevSettings) => {
+                                                    const updatedSettings = [...prevSettings];
+                                                    updatedSettings[index].boxSize = value;
+                                                    return updatedSettings;
+                                                });
+                                            }}
+                                            setHorizontalPosition={(value) => {
+                                                setTextSettings((prevSettings) => {
+                                                    const updatedSettings = [...prevSettings];
+                                                    updatedSettings[index].horizontalPosition = value;
+                                                    return updatedSettings;
+                                                });
+                                            }}
+                                            setVerticalPosition={(value) => {
+                                                setTextSettings((prevSettings) => {
+                                                    const updatedSettings = [...prevSettings];
+                                                    updatedSettings[index].verticalPosition = value;
                                                     return updatedSettings;
                                                 });
                                             }}
@@ -208,7 +257,9 @@ const ImgMemes = () => {
                     ))}
                 </div>
             </div>
-            <button onClick={downloadMeme} type='button' className='d-block mx-auto mt-3 btn btn-primary'>Decargar</button>
+            <div className='py-4'>
+                <button onClick={downloadMeme} type='button' className='d-block mx-auto btn btn-lg btn-light bg-gradient border border-3 border-dark'>Descargar</button>
+            </div>
         </div>
     );
 };

@@ -1,3 +1,7 @@
+h1 {
+    font-size: 50px;
+}
+
 figure {
     height: fit-content;
     max-height: 75vh;
@@ -7,6 +11,19 @@ figure img {
     height: fit-content;
     max-width: 100%;
     max-height: 75vh;
+}
+
+.imgbox::-webkit-scrollbar {
+    height: 5px;
+}
+
+.imgbox::-webkit-scrollbar-thumb {
+    background: rgb(192, 99, 192);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
 }
 
 .text-shadow {
@@ -19,4 +36,16 @@ input {
 
 input[type=number] {
     width: 4rem;
+}
+
+input[type=range] {
+    width: 4rem;
+}
+
+#verticalRange {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
 }
