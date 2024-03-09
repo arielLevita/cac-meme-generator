@@ -101,12 +101,12 @@ const ImgMemes = () => {
     };
 
     return (
-        <div className='min-vh-100'>
+        <div className='flex-grow-1'>
             <div className="wrapper">
-                <h1 className='mb-3 py-2 text-light text-center text-shadow text-uppercase' style={{ fontFamily: 'Segoe UI', fontSize: 'clamp(2rem, 1.2125rem + 2.55vw, 3rem)' }}>Editor de memes</h1>
+                <h1 className='my-4 py-2 text-light text-center text-shadow text-uppercase' style={{ fontFamily: 'Segoe UI', fontSize: 'clamp(2rem, 1.2125rem + 2.55vw, 3.5rem)', fontWeight: '700' }}>Editor de memes</h1>
 
                 <div className='row m-0'>
-                    <div className='col col-md-6 d-flex justify-content-center p-3'>
+                    <div className='col col-md-6 d-flex justify-content-center px-3'>
                         {/* Meme a generar */}
                         <figure className='figure position-relative' id='export'>
                             {/* Creación de nuevos array en función de la cantidad de líneas de texto y la informcaión predeterminada de cada una. */}
