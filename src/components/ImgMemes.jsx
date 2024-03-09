@@ -144,7 +144,7 @@ const ImgMemes = () => {
 
                     <div className='col col-md-6'>
                         <div className='bg-white px-2 pt-1 rounded-3'>
-                            <h4 className='text-dark-emphasis'>Elegí tu imagen favorita</h4>
+                            <h4 className='text-dark-emphasis'>Elija su imagen favorita</h4>
                             <div className='imgbox d-flex overflow-x-scroll p-1 bg-light rounded mb-3' id='imgBox'>
                                 {/* Caja para seleccionar el meme a utilizar en función de su imagen. */}
                                 {memesArray?.map((meme) => (
@@ -161,7 +161,7 @@ const ImgMemes = () => {
                         </div>
 
                         <div className='bg-white p-2 rounded-3'>
-                            <h4 className='text-dark-emphasis'>Ingresá el texto del meme</h4>
+                            <h4 className='text-dark-emphasis my-1'>Ingrese el texto del meme</h4>
                             {textSettings.map((settings, index) => (
                                 <div key={index} className='input-group text-input rounded-start mb-1'>
                                     {/* Input para texto. */}
