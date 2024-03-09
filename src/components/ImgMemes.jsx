@@ -101,9 +101,9 @@ const ImgMemes = () => {
     };
 
     return (
-        <div className='bg-info bg-gradient min-vh-100'>
+        <div className='min-vh-100'>
             <div className="wrapper">
-                <h1 className='mb-3 py-2 text-light text-center text-shadow text-uppercase' style={{ fontFamily: 'Segoe UI' }}>Editor de memes</h1>
+                <h1 className='mb-3 py-2 text-light text-center text-shadow text-uppercase' style={{ fontFamily: 'Segoe UI', fontSize: 'clamp(2rem, 1.2125rem + 2.55vw, 3rem)' }}>Editor de memes</h1>
 
                 <div className='row m-0'>
                     <div className='col col-md-6 d-flex justify-content-center p-3'>
@@ -143,159 +143,163 @@ const ImgMemes = () => {
                     </div>
 
                     <div className='col col-md-6'>
-                        <h4 className='text-light text-shadow'>Elegí tu imagen favorita</h4>
-                        <div className='imgbox d-flex overflow-x-scroll p-1 bg-light rounded mb-3' id='imgBox'>
-                            {/* Caja para seleccionar el meme a utilizar en función de su imagen. */}
-                            {memesArray?.map((meme) => (
-                                <img
-                                    key={meme.id}
-                                    src={meme.url}
-                                    name={meme.name}
-                                    alt={meme.name}
-                                    style={{ height: 100, marginRight: 10, border: '1px solid gray' }}
-                                    onClick={() => handleSelect(meme)}
-                                />
-                            ))}
+                        <div className='bg-white px-2 pt-1 rounded-3'>
+                            <h4 className='text-dark-emphasis'>Elegí tu imagen favorita</h4>
+                            <div className='imgbox d-flex overflow-x-scroll p-1 bg-light rounded mb-3' id='imgBox'>
+                                {/* Caja para seleccionar el meme a utilizar en función de su imagen. */}
+                                {memesArray?.map((meme) => (
+                                    <img
+                                        key={meme.id}
+                                        src={meme.url}
+                                        name={meme.name}
+                                        alt={meme.name}
+                                        style={{ height: 100, marginRight: 10, border: '1px solid gray' }}
+                                        onClick={() => handleSelect(meme)}
+                                    />
+                                ))}
+                            </div>
                         </div>
 
-                        <h4 className='text-light text-shadow'>Ingrese el texto del meme</h4>
-                        {textSettings.map((settings, index) => (
-                            <div key={index} className='input-group text-input rounded-start mb-1'>
-                                {/* Input para texto. */}
-                                <input
-                                    className='form-control w-50 d-block'
-                                    type='text'
-                                    placeholder='Ingresar texto'
-                                    name='meme'
-                                    aria-label=''
-                                    value={settings.textMeme || ''}
-                                    onChange={(e) => {
-                                        setTextSettings((prevSettings) => {
-                                            const updatedSettings = [...prevSettings];
-                                            updatedSettings[index] = { ...settings };
-                                            updatedSettings[index].textMeme = e.target.value;
-                                            return updatedSettings;
-                                        });
-                                    }}
-                                />
-                                {/* Input para color del texto. */}
-                                <span className='input-group-text'>
+                        <div className='bg-white p-2 rounded-3'>
+                            <h4 className='text-dark-emphasis'>Ingresá el texto del meme</h4>
+                            {textSettings.map((settings, index) => (
+                                <div key={index} className='input-group text-input rounded-start mb-1'>
+                                    {/* Input para texto. */}
                                     <input
-                                        type="color"
-                                        className="form-control form-control-color"
-                                        id="exampleColorInput"
-                                        value={settings.textColor}
-                                        title="Choose your color"
+                                        className='form-control w-50 d-block'
+                                        type='text'
+                                        placeholder='Ingresar texto'
+                                        name='meme'
+                                        aria-label=''
+                                        value={settings.textMeme || ''}
                                         onChange={(e) => {
                                             setTextSettings((prevSettings) => {
                                                 const updatedSettings = [...prevSettings];
                                                 updatedSettings[index] = { ...settings };
-                                                updatedSettings[index].textColor = e.target.value;
+                                                updatedSettings[index].textMeme = e.target.value;
                                                 return updatedSettings;
                                             });
                                         }}
                                     />
-                                </span>
-                                <span className='input-group-text rounded-end'>
-                                    {/* Botón para desplegar ajustes del texto. */}
-                                    <button className='btn bg-light' onClick={() => handleShowSettings(index)}>
-                                        <i class="bi bi-pencil-square"></i>
-                                    </button>
+                                    {/* Input para color del texto. */}
+                                    <span className='input-group-text'>
+                                        <input
+                                            type="color"
+                                            className="form-control form-control-color"
+                                            id="exampleColorInput"
+                                            value={settings.textColor}
+                                            title="Choose your color"
+                                            onChange={(e) => {
+                                                setTextSettings((prevSettings) => {
+                                                    const updatedSettings = [...prevSettings];
+                                                    updatedSettings[index] = { ...settings };
+                                                    updatedSettings[index].textColor = e.target.value;
+                                                    return updatedSettings;
+                                                });
+                                            }}
+                                        />
+                                    </span>
+                                    <span className='input-group-text rounded-end'>
+                                        {/* Botón para desplegar ajustes del texto. */}
+                                        <button className='btn bg-light' onClick={() => handleShowSettings(index)}>
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
 
-                                </span>
-                                <div className='w-100' id='textSettings'>
-                                    {/* Cada caja intercambia información con el componente 'TextSettings', pasando los parámetros iniciales y los métodos de actualización de los valores. */}
-                                    {showSettings[index] ? (
-                                        <div>
-                                            <TextSettings
-                                                isUppercase={settings.isUppercase}
-                                                isBold={settings.isBold}
-                                                isTextShadow={settings.isTextShadow}
-                                                isItalic={settings.isItalic}
-                                                fontSize={settings.fontSize}
-                                                fontFamily={settings.fontFamily}
-                                                boxSize={settings.boxSize}
-                                                setIsUppercase={(value) => {
-                                                    setTextSettings((prevSettings) => {
-                                                        const updatedSettings = [...prevSettings];
-                                                        updatedSettings[index].isUppercase = value;
-                                                        return updatedSettings;
-                                                    });
-                                                }}
-                                                setIsBold={(value) => {
-                                                    setTextSettings((prevSettings) => {
-                                                        const updatedSettings = [...prevSettings];
-                                                        updatedSettings[index].isBold = value;
-                                                        return updatedSettings;
-                                                    });
-                                                }}
-                                                setIsTextShadow={(value) => {
-                                                    setTextSettings((prevSettings) => {
-                                                        const updatedSettings = [...prevSettings];
-                                                        updatedSettings[index].isTextShadow = value;
-                                                        return updatedSettings;
-                                                    });
-                                                }}
-                                                setIsItalic={(value) => {
-                                                    setTextSettings((prevSettings) => {
-                                                        const updatedSettings = [...prevSettings];
-                                                        updatedSettings[index].isItalic = value;
-                                                        return updatedSettings;
-                                                    });
-                                                }}
-                                                setFontSize={(value) => {
-                                                    setTextSettings((prevSettings) => {
-                                                        const updatedSettings = [...prevSettings];
-                                                        updatedSettings[index].fontSize = value;
-                                                        return updatedSettings;
-                                                    });
-                                                }}
-                                                setFontFamily={(value) => {
-                                                    setTextSettings((prevSettings) => {
-                                                        const updatedSettings = [...prevSettings];
-                                                        updatedSettings[index].fontFamily = value;
-                                                        return updatedSettings;
-                                                    });
-                                                }}
-                                                setBoxSize={(value) => {
-                                                    setTextSettings((prevSettings) => {
-                                                        const updatedSettings = [...prevSettings];
-                                                        updatedSettings[index].boxSize = value;
-                                                        return updatedSettings;
-                                                    });
-                                                }}
-                                                setHorizontalPosition={(value) => {
-                                                    setTextSettings((prevSettings) => {
-                                                        const updatedSettings = [...prevSettings];
-                                                        updatedSettings[index].horizontalPosition = value;
-                                                        return updatedSettings;
-                                                    });
-                                                }}
-                                                setVerticalPosition={(value) => {
-                                                    setTextSettings((prevSettings) => {
-                                                        const updatedSettings = [...prevSettings];
-                                                        updatedSettings[index].verticalPosition = value;
-                                                        return updatedSettings;
-                                                    });
-                                                }}
-                                                setRotation={(value) => {
-                                                    setTextSettings((prevSettings) => {
-                                                        const updatedSettings = [...prevSettings];
-                                                        updatedSettings[index].rotation = value;
-                                                        return updatedSettings;
-                                                    });
-                                                }}
-                                            />
-                                        </div>
-                                    ) : null}
+                                    </span>
+                                    <div className='w-100' id='textSettings'>
+                                        {/* Cada caja intercambia información con el componente 'TextSettings', pasando los parámetros iniciales y los métodos de actualización de los valores. */}
+                                        {showSettings[index] ? (
+                                            <div>
+                                                <TextSettings
+                                                    isUppercase={settings.isUppercase}
+                                                    isBold={settings.isBold}
+                                                    isTextShadow={settings.isTextShadow}
+                                                    isItalic={settings.isItalic}
+                                                    fontSize={settings.fontSize}
+                                                    fontFamily={settings.fontFamily}
+                                                    boxSize={settings.boxSize}
+                                                    setIsUppercase={(value) => {
+                                                        setTextSettings((prevSettings) => {
+                                                            const updatedSettings = [...prevSettings];
+                                                            updatedSettings[index].isUppercase = value;
+                                                            return updatedSettings;
+                                                        });
+                                                    }}
+                                                    setIsBold={(value) => {
+                                                        setTextSettings((prevSettings) => {
+                                                            const updatedSettings = [...prevSettings];
+                                                            updatedSettings[index].isBold = value;
+                                                            return updatedSettings;
+                                                        });
+                                                    }}
+                                                    setIsTextShadow={(value) => {
+                                                        setTextSettings((prevSettings) => {
+                                                            const updatedSettings = [...prevSettings];
+                                                            updatedSettings[index].isTextShadow = value;
+                                                            return updatedSettings;
+                                                        });
+                                                    }}
+                                                    setIsItalic={(value) => {
+                                                        setTextSettings((prevSettings) => {
+                                                            const updatedSettings = [...prevSettings];
+                                                            updatedSettings[index].isItalic = value;
+                                                            return updatedSettings;
+                                                        });
+                                                    }}
+                                                    setFontSize={(value) => {
+                                                        setTextSettings((prevSettings) => {
+                                                            const updatedSettings = [...prevSettings];
+                                                            updatedSettings[index].fontSize = value;
+                                                            return updatedSettings;
+                                                        });
+                                                    }}
+                                                    setFontFamily={(value) => {
+                                                        setTextSettings((prevSettings) => {
+                                                            const updatedSettings = [...prevSettings];
+                                                            updatedSettings[index].fontFamily = value;
+                                                            return updatedSettings;
+                                                        });
+                                                    }}
+                                                    setBoxSize={(value) => {
+                                                        setTextSettings((prevSettings) => {
+                                                            const updatedSettings = [...prevSettings];
+                                                            updatedSettings[index].boxSize = value;
+                                                            return updatedSettings;
+                                                        });
+                                                    }}
+                                                    setHorizontalPosition={(value) => {
+                                                        setTextSettings((prevSettings) => {
+                                                            const updatedSettings = [...prevSettings];
+                                                            updatedSettings[index].horizontalPosition = value;
+                                                            return updatedSettings;
+                                                        });
+                                                    }}
+                                                    setVerticalPosition={(value) => {
+                                                        setTextSettings((prevSettings) => {
+                                                            const updatedSettings = [...prevSettings];
+                                                            updatedSettings[index].verticalPosition = value;
+                                                            return updatedSettings;
+                                                        });
+                                                    }}
+                                                    setRotation={(value) => {
+                                                        setTextSettings((prevSettings) => {
+                                                            const updatedSettings = [...prevSettings];
+                                                            updatedSettings[index].rotation = value;
+                                                            return updatedSettings;
+                                                        });
+                                                    }}
+                                                />
+                                            </div>
+                                        ) : null}
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <div className='py-4'>
                     {/* Botón de descarga del meme que captura la figura y la guarda como archivo .jpg */}
-                    <button onClick={downloadMeme} type='button' className='d-block mx-auto btn btn-lg btn-light bg-gradient shadow-lg'>Descargar</button>
+                    <button onClick={downloadMeme} type='button' className='d-block mx-auto btn btn-lg btn-secondary bg-gradient shadow-lg'>Descargar</button>
                 </div>
             </div>
         </div>
